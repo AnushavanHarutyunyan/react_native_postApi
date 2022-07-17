@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import { useEffect, useState } from 'react';
+import { bootstrap } from './src/bootstrap';
+import { AppNavigation } from './src/navigation/AppNavigation';
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    const [isReady, setIsReady] = useState(false);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    useEffect(() => {
+        async function prepare() {
+            try {
+                await SplashScreen.preventAutoHideAsync();
+                await bootstrap();
+                // await new Promise((resolve) => setTimeout(resolve, 2000));
+            } catch (e) {
+                console.warn(e);
+            } finally {
+                setIsReady(true);
+            }
+        }
+        prepare();
+    }, []);
+
+    if (isReady) {
+        SplashScreen.hideAsync();
+    } else {
+        return null;
+    }
+
+    return <AppNavigation />;
+}
