@@ -1,7 +1,9 @@
 import 'react-native-gesture-handler';
 import { useEffect, useState } from 'react';
+import { Provider } from 'react-redux';
 import { bootstrap } from './src/bootstrap';
 import { AppNavigation } from './src/navigation/AppNavigation';
+import store from './src/store';
 import * as SplashScreen from 'expo-splash-screen';
 
 export default function App() {
@@ -12,7 +14,6 @@ export default function App() {
             try {
                 await SplashScreen.preventAutoHideAsync();
                 await bootstrap();
-                // await new Promise((resolve) => setTimeout(resolve, 2000));
             } catch (e) {
                 console.warn(e);
             } finally {
@@ -28,5 +29,9 @@ export default function App() {
         return null;
     }
 
-    return <AppNavigation />;
+    return (
+        <Provider store={store}>
+            <AppNavigation />
+        </Provider>
+    );
 }

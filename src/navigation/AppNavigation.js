@@ -1,6 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { THEME } from '../theme';
 import { MainNav } from './MainNav';
 import { PostScreen } from '../screens/PostScreen';
 

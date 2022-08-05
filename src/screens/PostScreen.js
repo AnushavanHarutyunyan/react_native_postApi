@@ -9,10 +9,16 @@ import {
     Alert,
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppHeaderIcon } from '../components/AppHeaderIcon';
+import { removePost, toggleBoodek } from '../store/reducers/postSlice';
 import { THEME } from '../theme';
 
 export const PostScreen = ({ navigation, route }) => {
+    const dispatch = useDispatch();
+    const { allPosts } = useSelector((state) => state.post);
+    let { post } = route.params;
+
     const handleRemove = () => {
         Alert.alert(
             'Deleteing Item',
@@ -26,29 +32,39 @@ export const PostScreen = ({ navigation, route }) => {
                 {
                     text: 'Delete',
                     style: 'destructive',
-                    onPress: () => console.log('OK Pressed'),
+                    onPress: () => {
+                        dispatch(removePost(post.id));
+                        navigation.navigate('Main');
+                    },
                 },
             ],
             { cancelable: true }
         );
     };
 
-    const { post } = route.params;
-    const iconName = post.booked ? 'ios-star' : 'ios-star-outline';
+    const selectedPost = allPosts.find((item) => item.id === post.id);
+    const iconName = selectedPost && selectedPost.booked? 'ios-star': 'ios-star-outline';
+
+    const toggleHandler = () => {
+        dispatch(toggleBoodek(post.id));
+    };
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerRight: () => (
-                <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-                    <Item
-                        title="star"
-                        iconName={iconName}
-                        onPress={() => alert('search')}
-                    />
-                </HeaderButtons>
-            ),
+            headerRight: () => {
+                return (
+                    <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+                        <Item
+                            title="star"
+                            iconName={iconName}
+                            onPress={toggleHandler}
+                        />
+                    </HeaderButtons>
+                );
+            },
+            toggleHandler: toggleHandler,
         });
-    }, [navigation]);
+    }, [navigation, iconName]);
 
     return (
         <ScrollView>
