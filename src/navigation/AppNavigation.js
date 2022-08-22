@@ -1,8 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { THEME } from '../theme';
 import { MainNav } from './MainNav';
 import { PostScreen } from '../screens/PostScreen';
+import { EditModal } from '../screens/EditeModal';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +23,7 @@ export const AppNavigation = () => {
                         headerStyle: { backgroundColor: 'red' },
                     })}
                 />
+                <Stack.Screen component={EditModal} name="EditPost" />
             </Stack.Navigator>
         </NavigationContainer>
     );

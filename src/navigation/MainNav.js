@@ -2,6 +2,7 @@ import { TabNavigator } from './TabNavigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { AboutScreen } from '../screens/AboutScreen';
 import { CreateScreen } from '../screens/CreateScreen';
+import { UploadScreen } from '../screens/UploadScreen';
 import { THEME } from '../theme';
 
 const Draw = createDrawerNavigator();
@@ -20,6 +21,7 @@ export const MainNav = () => {
             <Draw.Screen name="Main" component={TabNavigator} />
             <Draw.Screen name="About" component={AboutScreen} />
             <Draw.Screen name="Create" component={CreateScreen} />
+            <Draw.Screen name="UploadScreen" component={UploadScreen} />
         </Draw.Navigator>
     );
 };

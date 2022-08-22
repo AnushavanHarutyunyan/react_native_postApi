@@ -1,18 +1,19 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
 import { Post } from '../components/Post';
-import { data } from '../data';
 
 export const BookedScreen = ({ navigation }) => {
     const onOpen = (post) => {
         navigation.navigate('Post', { post });
     };
+    const bookedPosts = useSelector((state) => state.post.bookedPosts);
 
     return (
         <View style={styles.center}>
             <FlatList
-                data={data.filter((post) => post.booked)}
+                data={bookedPosts}
                 keyExtractor={(post) => post.id}
                 renderItem={({ item }) => <Post post={item} onOpen={onOpen} />}
             />
